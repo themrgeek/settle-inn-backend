@@ -7,6 +7,13 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Welcome to Settle Inn")
+		c.JSON(200, gin.H{
+			"message": "Welcome to the SettleInn API",
+		})
+	})
+	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
 
 	tenant := r.Group("/tenant")
