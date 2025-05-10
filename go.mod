@@ -1,4 +1,4 @@
-module github.com/themrgeek/settle-inn-backend
+module github.com/themrgeek/settleinn-backend
 
 go 1.23.4
 
