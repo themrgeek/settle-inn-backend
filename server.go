@@ -2,15 +2,12 @@ package main
 
 import (
 	"log"
-	"settleinn-backend/config"
 	"settleinn-backend/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	config.ConnectDB()
-
 	r := gin.Default()
 	routes.SetupRoutes(r)
 
