@@ -2,15 +2,39 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/themrgeek/settleinn-backend/config"
+	"github.com/joho/godotenv"
 	"github.com/themrgeek/settleinn-backend/routes"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
+func ConnectDB() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file. Make sure .env file exists in the root directory:", err)
+	}
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
+		os.Getenv("DB_USER"), os.Getenv("DB_PASS"),
+		os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Database connection failed:", err)
+	}
+
+	DB = db
+	fmt.Println("Database connected")
+}
 func main() {
-	config.ConnectDB()
+	ConnectDB()
 	r := gin.Default()
 	routes.SetupRoutes(r)
 

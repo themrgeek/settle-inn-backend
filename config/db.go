@@ -13,9 +13,9 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	err := godotenv.Load()
+	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error loading .env file. Make sure .env file exists in the root directory:", err)
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
