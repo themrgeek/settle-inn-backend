@@ -2,7 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/settleinn-backend/controllers"
+	"github.com/themrgeek/settleinn-backend/controllers"
+	middlewares "github.com/themrgeek/settleinn-backend/middleware"
 )
 
 func SetupRoutes(r *gin.Engine) {
@@ -11,14 +12,14 @@ func SetupRoutes(r *gin.Engine) {
 	tenant := r.Group("/tenant")
 	tenant.Use(middlewares.AuthMiddleware("tenant"))
 	{
-		tenant.GET("/properties", controllers.ViewProperties)
+		tenant.GET("/properties", controllers.ViewListings)
 	}
 
 	owner := r.Group("/owner")
 	owner.Use(middlewares.AuthMiddleware("owner"))
 	{
-		owner.GET("/bookings", controllers.ViewBookings)
-		owner.GET("/views", controllers.PropertyViews)
+		owner.GET("/bookings", controllers.ListOwnerBookings)
+		owner.GET("/views", controllers.ViewPropertyStats)
 	}
 
 	admin := r.Group("/admin")
